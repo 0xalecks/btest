@@ -25,4 +25,8 @@ jobs:
         run: yarn install --immutable
       - name: Generate Typedefs
         run: yarn generate
-
+      - name: Publish
+        run: yarn workspace @beanstalk/cli g:publish
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.YARN_NPM_AUTH_TOKEN }}
+          TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
