@@ -1,4 +1,4 @@
-name: Publish Package to NPM
+name: Publish CLI to NPM
 on:
   push:
     branches:
@@ -19,14 +19,10 @@ jobs:
         uses: actions/cache@v3
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
       - name: Install Dependencies
         if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: yarn install --immutable
       - name: Generate Typedefs
         run: yarn generate
-      - name: Publish
-        run: yarn workspace @beanstalk/cli g:publish
-        env:
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.YARN_NPM_AUTH_TOKEN }}
-          TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
+

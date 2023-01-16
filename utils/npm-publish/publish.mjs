@@ -24,12 +24,11 @@ async function publish(localVersion, name) {
   }
   // SDK needs to be built as a prerequisit for others
   if (name !== "@beanstalk/sdk") {
-    // $`yarn workspace @beanstalk/sdk build`;
+    // await $`yarn workspace @beanstalk/sdk build`;
     console.log(`yarn workspace @beanstalk/sdk build`);
   }
-  // $`yarn workspace ${name} publish`;
+  // await $`yarn workspace ${name} publish`;
   console.log(`yarn workspace ${name} publish`);
-  $`echo $YARN_NPM_AUTH_TOKEN`;
 }
 
 async function precheck() {
@@ -78,8 +77,8 @@ async function createRelease(version, projectName) {
   try {
     const [owner, repo] = GITHUB_REPOSITORY.split("/");
     const res = await octokit.rest.repos.createRelease({
-      owner: GITHUB_OWNER,
-      repo: GITHUB_REPO,
+      owner,
+      repo,
       tag_name: `${projectName}_${version}`,
       target_commitish: GITHUB_SHA,
       name: `${name} Version ${version}`
