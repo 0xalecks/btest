@@ -4,7 +4,7 @@ import "zx/globals";
 const TOKEN_GITHUB = process.env.TOKEN_GITHUB;
 const YARN_NPM_AUTH_TOKEN = process.env.YARN_NPM_AUTH_TOKEN;
 const GITHUB_REPOSITORY = process.env.GITHUB_REPOSITORY;
-const GITHUB_COMMIT = process.env.GITHUB_COMMIT;
+const GITHUB_SHA = process.env.GITHUB_SHA;
 const WORKSPACE_ROOT = process.env.PROJECT_CWD;
 const PROJECT_ROOT = argv.cwd;
 const WHITELISTED_PACKAGES = ["@beanstalk/sdk", "@beanstalk/cli"];
@@ -55,7 +55,6 @@ async function precheck() {
   }
 
   console.log(`Publishing ${name} version ${localVersion} on NPM`);
-  console.log("Root: ");
 }
 
 async function createRelease(version, projectName) {
@@ -63,8 +62,8 @@ async function createRelease(version, projectName) {
     exit("TOKEN_GITHUB is not set");
   }
 
-  if (!GITHUB_COMMIT) {
-    exit("GITHUB_COMMIT is not set");
+  if (!GITHUB_SHA) {
+    exit("GITHUB_SHA is not set");
   }
 
   if (!GITHUB_REPOSITORY) {
@@ -82,7 +81,7 @@ async function createRelease(version, projectName) {
       owner: GITHUB_OWNER,
       repo: GITHUB_REPO,
       tag_name: `${projectName}_${version}`,
-      target_commitish: GITHUB_COMMIT,
+      target_commitish: GITHUB_SHA,
       name: `${name} Version ${version}`
     });
   } catch (err) {
